@@ -96,8 +96,9 @@ def get_extensions():
             "-gencode=arch=compute_75,code=sm_75",
             "-gencode=arch=compute_80,code=sm_80",
             "-gencode=arch=compute_86,code=sm_86",
-            "-gencode=arch=compute_120,code=sm_120"
         ]
+        if torch.version.cuda >= '12.8':  # '12.6' < '12.8'
+            extra_compile_args["nvcc"] += ["-gencode=arch=compute_120,code=sm_120"]
     else:
         print("Compiling without CUDA")
         define_macros += [("WITH_HIP", None)]
